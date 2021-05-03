@@ -55,14 +55,12 @@ def split_data(result):
         train_size = float(train_size_in_percent) / 100
         random_state = st.number_input("random_state", 0, 1000, 0, 1)
 
-        st.write(test_size)
-        st.write(train_size)
         X_train, X_test, y_train, y_test = train_test_split(
             result[0], result[1], train_size=train_size, random_state=random_state
         )
 
         st.write("Shape of X train: ", X_train.shape)
-        st.write("Shape of Y train: ", y_train.shape)
+        st.write("Shape of X test: ", X_test.shape)
 
         return X_train, X_test, y_train, y_test
 
