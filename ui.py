@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import time
+from models.utils import model_imports
 from models.DecisionTree_Classification import dt_param_selector
 from models.LinearRegression import linearReg_param_selector
 from models.LogisticRegression import logisticReg_param_selector
@@ -41,13 +42,14 @@ def dataset_upload():
             if dependent_column:
                 y = dataset[dependent_column]
                 X = dataset.drop(dependent_column, axis=1)
+                result.append(dataset)
                 result.append(X)
                 result.append(y)
                 return result
 
 
 def split_data(result):
-    split_container = st.sidebar.beta_expander("Data Splitting")
+    split_container = st.sidebar.beta_expander("Data Splitting", True)
     with split_container:
         train_size_in_percent = st.number_input("Train Size in %", 0, 100, 80, 1)
 
@@ -56,13 +58,13 @@ def split_data(result):
         random_state = st.number_input("random_state", 0, 1000, 0, 1)
 
         X_train, X_test, y_train, y_test = train_test_split(
-            result[0], result[1], train_size=train_size, random_state=random_state
+            result[1], result[2], train_size=train_size, random_state=random_state
         )
 
         st.write("Shape of X train: ", X_train.shape)
         st.write("Shape of X test: ", X_test.shape)
 
-        return X_train, X_test, y_train, y_test
+        return X_train, X_test, y_train, y_test, test_size, random_state
 
 
 def model_selector():
@@ -122,12 +124,48 @@ def model_selector():
     # st.write(dataset.columns)
 
 
+def generate_snippet(model, model_type, dataset, test_size, random_state):
+
+    model_text_rep = repr(model)
+    model_import = model_imports[model_type]
+    dataset_import = "pd.read_csv('file_path')"
+    snippet = f"""
+    >>> {dataset_import}
+
+    >>> {model_import}
+
+    >>> from sklearn.metrics import accuracy_score, f1_score 
+
+    >>> from sklearn.model_selection import train_test_split
+
+    >>> X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = {round(test_size, 2)}, random_state = {random_state})
+
+    >>> model = {model_text_rep}
+
+    >>> model.fit(x_train, y_train)
+    
+    >>> y_train_pred = model.predict(x_train)
+
+    >>> y_test_pred = model.predict(x_test)
+
+    >>> train_accuracy = accuracy_score(y_train, y_train_pred)
+
+    >>> test_accuracy = accuracy_score(y_test, y_test_pred)
+    """
+
+    return snippet
+
+
 def main():
     introduction()
     result = dataset_upload()
     if result is not None:
-        X_train, X_test, y_train, y_test = split_data(result)
-    model_selector()
+        X_train, X_test, y_train, y_test, test_size, random_state = split_data(result)
+        model_type, model = model_selector()
+        snippet = generate_snippet(
+            model, model_type, result[0], test_size, random_state
+        )
+        st.write(snippet)
 
 
 if __name__ == "__main__":

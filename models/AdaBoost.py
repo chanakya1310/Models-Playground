@@ -49,7 +49,7 @@ def ada_param_selector():
     base_estimator = base_estimator1
     n_estimators = st.number_input("n_estimators", 1, 1000, 100, 10)
     learning_rate = st.number_input("learning_rate", 0.0, 10.0, 0.1, 0.1)
-    random_state = st.number_input("random_state", 0, 1000, 0, 1)
+    random_state = st.number_input("random_state", 0, 1000, 0, 1, key="ada")
 
     params = {
         "base_estimator": base_estimator1,

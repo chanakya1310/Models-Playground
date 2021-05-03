@@ -10,7 +10,7 @@ def gbc_param_selector():
     criterion = st.selectbox("criterion", ["friedman_mse", "mse", "mae"])
     min_samples_split = st.number_input("min_samples_split", 1, 20, 2, 1)
     max_depth = st.number_input("max_depth", 1, 20, 3, 1)
-    random_state = st.number_input("random_state", 0, 1000, 0, 1, key = 'xgboost')
+    random_state = st.number_input("random_state", 0, 1000, 0, 1, key="xgboost")
     max_features = st.selectbox("max_features", ["auto", "sqrt", "log2"])
 
     params = {
