@@ -16,8 +16,7 @@ st.set_page_config(
 )
 
 
-def sidebar_controllers():
-    result = dataset_upload()
+def sidebar_controllers(result):
     if result is not None:
         dependent_column = result[1]
         X_train, X_test, y_train, y_test, test_size, random_state = split_data(result)
@@ -104,32 +103,34 @@ def body(
 
 if __name__ == "__main__":
     introduction()
-    (
-        model_type,
-        model,
-        X_train,
-        y_train,
-        X_test,
-        y_test,
-        duration,
-        train_accuracy,
-        train_f1,
-        test_accuracy,
-        test_f1,
-        snippet,
-    ) = sidebar_controllers()
-    if train_f1:
-        body(
-            X_train,
-            X_test,
-            y_train,
-            y_test,
-            model,
+    result = dataset_upload()
+    if result:
+        (
             model_type,
+            model,
+            X_train,
+            y_train,
+            X_test,
+            y_test,
             duration,
             train_accuracy,
             train_f1,
             test_accuracy,
             test_f1,
             snippet,
-        )
+        ) = sidebar_controllers(result)
+        if train_f1:
+            body(
+                X_train,
+                X_test,
+                y_train,
+                y_test,
+                model,
+                model_type,
+                duration,
+                train_accuracy,
+                train_f1,
+                test_accuracy,
+                test_f1,
+                snippet,
+            )
