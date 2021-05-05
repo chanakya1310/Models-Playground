@@ -141,33 +141,33 @@ def generate_snippet(
     dataset_import = "df = pd.read_csv('file_path')"
     snippet = f"""
 
-    >>> {model_import}
+    {model_import}
 
-    >>> from sklearn.metrics import accuracy_score, f1_score 
+    from sklearn.metrics import accuracy_score, f1_score 
 
-    >>> from sklearn.model_selection import train_test_split
+    from sklearn.model_selection import train_test_split
 
-    >>> {dataset_import}
+    {dataset_import}
 
-    >>> dependent_column = str({dependent_column})
+    dependent_column = str({dependent_column})
 
-    >>> y = df[dependent_column]
+    y = df[dependent_column]
 
-    >>> X = df.drop(dependent_column, axis = 1)
+    X = df.drop(dependent_column, axis = 1)
 
-    >>> X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = {round(test_size, 2)}, random_state = {random_state})
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = {round(test_size, 2)}, random_state = {random_state})
 
-    >>> model = {model_text_rep}
+    model = {model_text_rep}
 
-    >>> model.fit(x_train, y_train)
+    model.fit(x_train, y_train)
     
-    >>> y_train_pred = model.predict(x_train)
+    y_train_pred = model.predict(x_train)
 
-    >>> y_test_pred = model.predict(x_test)
+    y_test_pred = model.predict(x_test)
 
-    >>> train_accuracy = accuracy_score(y_train, y_train_pred)
+    train_accuracy = accuracy_score(y_train, y_train_pred)
 
-    >>> test_accuracy = accuracy_score(y_test, y_test_pred)
+    test_accuracy = accuracy_score(y_test, y_test_pred)
     """
 
     return snippet
@@ -178,16 +178,16 @@ def train_model(model, X_train, y_train, X_test, y_test):
     model = model
     model.fit(X_train, y_train)
     duration = time.time() - t0
-    st.write(duration)
+    # st.write(duration)
     y_train_pred = model.predict(X_train)
     y_test_pred = model.predict(X_test)
 
     train_accuracy = np.round(accuracy_score(y_train, y_train_pred), 3)
     train_f1 = np.round(f1_score(y_train, y_train_pred, average="weighted"), 3)
-    st.write(f"Train F1 is {train_f1}")
+    # st.write(f"Train F1 is {train_f1}")
     test_accuracy = np.round(accuracy_score(y_test, y_test_pred), 3)
     test_f1 = np.round(f1_score(y_test, y_test_pred, average="weighted"), 3)
-    st.write(f"Test F1 is {test_f1}")
+    # st.write(f"Test F1 is {test_f1}")
     return model, train_accuracy, train_f1, test_accuracy, test_f1, duration
 
 

@@ -10,9 +10,9 @@ model_imports = {
 
 model_urls = {
     "Logistic Regression": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
-    "Decision Tree": "https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html",
-    "Random Forest": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html",
-    "Gradient Boosting": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html",
+    "Decision Tree Classifier": "https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html",
+    "Random Forest Classifier": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html",
+    "Gradient Boosting Classifier": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html",
     "SVC": "https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html",
 }
 
@@ -23,17 +23,17 @@ model_infos = {
         - It's computationally fast and interpretable by design
         - It can handle non-linear datasets with appropriate feature engineering
     """,
-    "Decision Tree": """
+    "Decision Tree Classifier": """
         - Decision trees are simple to understand and intrepret
         - They are prone to overfitting when they are deep (high variance)
     """,
-    "Random Forest": """
+    "Random Forest Classifier": """
         - They have lower risk of overfitting in comparison with decision trees
         - They are robust to outliers
         - They are computationally intensive on large datasets 
         - They are not easily interpretable
     """,
-    "Gradient Boosting": """
+    "Gradient Boosting Classifier": """
         - Gradient boosting combines decision trees in an additive fashion from the start
         - Gradient boosting builds one tree at a time sequentially
         - Carefully tuned, gradient boosting can result in better performance than random forests
