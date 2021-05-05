@@ -14,6 +14,7 @@ model_urls = {
     "Random Forest Classifier": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html",
     "Gradient Boosting Classifier": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html",
     "SVC": "https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html",
+    "AdaBoost Classifier": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html",
 }
 
 
@@ -42,5 +43,10 @@ model_infos = {
         - SVMs or SVCs are effective when the number of features is larger than the number of samples
         - They provide different type of kernel functions
         - They require careful normalization   
+    """,
+    "AdaBoost Classifier": """
+        - AdaBoost is similar to Random Forest in that they both tally up the predictions made by each decision trees within the forest to decide on the final classification. 
+        - There are however, some subtle differences. For instance, in AdaBoost, the decision trees have a depth of 1 (i.e. 2 leaves). 
+        - In addition, the predictions made by each decision tree have varying impact on the final prediction made by the model.
     """,
 }

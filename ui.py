@@ -13,6 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score
 from plotly.subplots import make_subplots
 import plotly.graph_objs as go
+from functions import img_to_bytes
 
 
 def introduction():
@@ -80,7 +81,6 @@ def model_selector(problem_type, X_train, y_train):
     model = ""
     model_type = ""
     with model_training_container:
-        # problem_type = st.selectbox("Type of Problem", ("Regression", "Classification"))
 
         if problem_type == "Regression":
 
@@ -185,78 +185,24 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, duration):
 
     train_accuracy = np.round(accuracy_score(y_train, y_train_pred), 3)
     train_f1 = np.round(f1_score(y_train, y_train_pred, average="weighted"), 3)
-    # st.write(f"Train F1 is {train_f1}")
+
     test_accuracy = np.round(accuracy_score(y_test, y_test_pred), 3)
     test_f1 = np.round(f1_score(y_test, y_test_pred, average="weighted"), 3)
-    # st.write(f"Test F1 is {test_f1}")
+
     return (
         model,
         train_accuracy,
         train_f1,
         test_accuracy,
         test_f1,
-    )  # duration
+    )
 
 
-# def plot_metrics(model, train_accuracy, test_accuracy, train_f1, test_f1):
-#     fig = make_subplots(
-#         rows=2,
-#         cols=1,
-#         specs=[[{"colspan": 1}, None], [{"type": "indicator"}, {"type": "indicator"}]],
-#         # row_heights=[0.7, 0.30],
-#     )
-
-#     fig.add_trace(
-#         go.indicator(
-#             mode="gauge+number+delta",
-#             value=test_accuracy,
-#             title={"text": f"Accuracy (test)"},
-#             domain={"x": [0, 1], "y": [0, 1]},
-#             gauge={"axis": {"range": [0, 1]}},
-#             delta={"reference": train_accuracy},
-#         ),
-#         row=1,
-#         col=1,
-#     )
-
-#     fig.add_trace(
-#         go.indicator(
-#             mode="gauge+number+delta",
-#             value=test_f1,
-#             title={"text": f"F1 score (test)"},
-#             domain={"x": [0, 1], "y": [0, 1]},
-#             gauge={"axis": {"range": [0, 1]}},
-#             delta={"reference": train_f1},
-#         ),
-#         row=2,
-#         col=1,
-#     )
-#     return fig
-
-
-# def main():
-#     introduction()
-#     result = dataset_upload()
-#     if result is not None:
-#         dependent_column = result[0]
-#         X_train, X_test, y_train, y_test, test_size, random_state = split_data(result)
-#         model_type, model = model_selector()
-#         st.write(model)
-#         if model:
-#             (
-#                 model,
-#                 train_accuracy,
-#                 train_f1,
-#                 test_accuracy,
-#                 test_f1,
-#                 duration,
-#             ) = train_model(model, X_train, y_train, X_test, y_test)
-#             plot_metrics(model, train_accuracy, test_accuracy, train_f1, test_f1)
-#             snippet = generate_snippet(
-#                 model, model_type, result[0], test_size, random_state, dependent_column
-#             )
-#             st.write(snippet)
-
-
-# if __name__ == "__main__":
-#     main()
+def footer():
+    st.sidebar.markdown(
+        """
+        [<img src='data:image/png;base64,{}' class='img-fluid' width=30 height=30>](https://github.com/chanakya1310/Machine-Learning-Models-Dashboard) <small> ML Playground 0.1.0 | May 2021</small>""".format(
+            img_to_bytes("./images/github-mark.png")
+        ),
+        unsafe_allow_html=True,
+    )

@@ -7,12 +7,12 @@ from ui import (
     model_selector,
     evaluate_model,
     generate_snippet,
+    footer,
 )
 from functions import get_model_url, get_model_tips, plot_metrics, local_css
 
 st.set_page_config(
-    page_title="Playground",
-    layout="wide",  # page_icon="./images/flask.png"
+    page_title="Playground", layout="wide", page_icon="./images/mlground.png"
 )
 
 
@@ -34,6 +34,7 @@ def sidebar_controllers(result):
             snippet = generate_snippet(
                 model, model_type, result[0], test_size, random_state, dependent_column
             )
+            footer()
             # st.write(snippet)
             return (
                 model_type,

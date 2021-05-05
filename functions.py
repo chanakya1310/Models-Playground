@@ -1,6 +1,7 @@
 from pathlib import Path
 import base64
 import time
+from pathlib import Path
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -28,6 +29,12 @@ def get_model_url(model_type):
 def get_model_tips(model_type):
     model_tips = model_infos[model_type]
     return model_tips
+
+
+def img_to_bytes(img_path):
+    img_bytes = Path(img_path).read_bytes()
+    encoded = base64.b64encode(img_bytes).decode()
+    return encoded
 
 
 def plot_metrics(metrics):
