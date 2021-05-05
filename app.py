@@ -5,7 +5,7 @@ from ui import (
     dataset_upload,
     split_data,
     model_selector,
-    train_model,
+    evaluate_model,
     generate_snippet,
 )
 from functions import get_model_url, get_model_tips, plot_metrics, local_css
@@ -20,7 +20,7 @@ def sidebar_controllers(result):
     if result is not None:
         dependent_column = result[1]
         X_train, X_test, y_train, y_test, test_size, random_state = split_data(result)
-        model_type, model = model_selector(result[0])
+        model_type, model, duration = model_selector(result[0], X_train, y_train)
         if model:
             (
                 model,
@@ -28,8 +28,8 @@ def sidebar_controllers(result):
                 train_f1,
                 test_accuracy,
                 test_f1,
-                duration,
-            ) = train_model(model, X_train, y_train, X_test, y_test)
+                # duration,
+            ) = evaluate_model(model, X_train, y_train, X_test, y_test, duration)
             # plot_metrics(model, train_accuracy, test_accuracy, train_f1, test_f1)
             snippet = generate_snippet(
                 model, model_type, result[0], test_size, random_state, dependent_column

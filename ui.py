@@ -75,7 +75,7 @@ def split_data(result):
         return X_train, X_test, y_train, y_test, test_size, random_state
 
 
-def model_selector(problem_type):
+def model_selector(problem_type, X_train, y_train):
     model_training_container = st.sidebar.beta_expander("Train a model", True)
     model = ""
     model_type = ""
@@ -112,24 +112,21 @@ def model_selector(problem_type):
             )
 
             if model_type == "Logistic Regression":
-                model = logisticReg_param_selector()
+                model, duration = logisticReg_param_selector(X_train, y_train)
 
             elif model_type == "Decision Tree Classifier":
-                model = dt_param_selector()
+                model, duration = dt_param_selector(X_train, y_train)
 
             elif model_type == "Random Forest Classifier":
-                model = rf_param_selector()
+                model, duration = rf_param_selector(X_train, y_train)
 
             elif model_type == "Gradient Boosting Classifier":
-                model = gbc_param_selector()
+                model, duration = gbc_param_selector(X_train, y_train)
 
             elif model_type == "AdaBoost Classifier":
-                model = ada_param_selector()
+                model, duration = ada_param_selector(X_train, y_train)
 
-    return model_type, model
-
-    # st.write(dataset)
-    # st.write(dataset.columns)
+    return model_type, model, duration
 
 
 def generate_snippet(
@@ -143,6 +140,8 @@ def generate_snippet(
 
     {model_import}
 
+    import pandas as pd
+
     from sklearn.metrics import accuracy_score, f1_score 
 
     from sklearn.model_selection import train_test_split
@@ -155,30 +154,32 @@ def generate_snippet(
 
     X = df.drop(dependent_column, axis = 1)
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = {round(test_size, 2)}, random_state = {random_state})
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size = {round(test_size, 2)}, random_state = {random_state}
+    )
 
     model = {model_text_rep}
 
-    model.fit(x_train, y_train)
+    model.fit(X_train, y_train)
     
-    y_train_pred = model.predict(x_train)
+    y_train_pred = model.predict(X_train)
 
-    y_test_pred = model.predict(x_test)
+    y_test_pred = model.predict(X_test)
 
     train_accuracy = accuracy_score(y_train, y_train_pred)
 
     test_accuracy = accuracy_score(y_test, y_test_pred)
+
+    train_f1 = f1_score(y_train, y_train_pred)
+
+    test_f1 = f1_score(y_test, y_test_pred)
     """
 
     return snippet
 
 
-def train_model(model, X_train, y_train, X_test, y_test):
-    t0 = time.time()
-    model = model
-    model.fit(X_train, y_train)
-    duration = time.time() - t0
-    # st.write(duration)
+def evaluate_model(model, X_train, y_train, X_test, y_test, duration):
+
     y_train_pred = model.predict(X_train)
     y_test_pred = model.predict(X_test)
 
@@ -188,7 +189,13 @@ def train_model(model, X_train, y_train, X_test, y_test):
     test_accuracy = np.round(accuracy_score(y_test, y_test_pred), 3)
     test_f1 = np.round(f1_score(y_test, y_test_pred, average="weighted"), 3)
     # st.write(f"Test F1 is {test_f1}")
-    return model, train_accuracy, train_f1, test_accuracy, test_f1, duration
+    return (
+        model,
+        train_accuracy,
+        train_f1,
+        test_accuracy,
+        test_f1,
+    )  # duration
 
 
 # def plot_metrics(model, train_accuracy, test_accuracy, train_f1, test_f1):

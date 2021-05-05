@@ -1,8 +1,10 @@
 import streamlit as st
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score, f1_score
+import time
 
 
-def gbc_param_selector():
+def gbc_param_selector(X_train, y_train):
 
     loss = st.selectbox("loss", ["deviance", "exponential"])
     learning_rate = st.number_input("learning_rate", 0.0, 10.0, 0.1, 0.1)
@@ -25,5 +27,8 @@ def gbc_param_selector():
     }
 
     model = GradientBoostingClassifier(**params)
+    t0 = time.time()
+    model.fit(X_train, y_train)
+    duration = time.time() - t0
 
-    return model
+    return model, duration

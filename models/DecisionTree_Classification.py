@@ -1,8 +1,9 @@
 import streamlit as st
 from sklearn.tree import DecisionTreeClassifier
+import time
 
 
-def dt_param_selector():
+def dt_param_selector(X_train, y_train):
 
     criterion = st.selectbox("criterion", ["gini", "entropy"])
     max_depth = st.number_input("max depth", 1, 50, 5, 1)
@@ -18,4 +19,8 @@ def dt_param_selector():
 
     model = DecisionTreeClassifier(**params)
 
-    return model
+    t0 = time.time()
+    model.fit(X_train, y_train)
+    duration = time.time() - t0
+
+    return model, duration

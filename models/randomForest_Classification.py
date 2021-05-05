@@ -1,11 +1,12 @@
 import streamlit as st
 from sklearn.ensemble import RandomForestClassifier
+import time
 
 
-def rf_param_selector():
+def rf_param_selector(X_train, y_train):
 
     criterion = st.selectbox("criterion", ["gini", "entropy"])
-    n_estimators = st.number_input("n_estimators", 50, 300, 100, 10)
+    n_estimators = st.number_input("n_estimators", 50, 1000, 100, 10)
     max_depth = st.number_input("max_depth", 1, 50, 5, 1)
     min_samples_split = st.number_input("min_samples_split", 1, 20, 2, 1)
     max_features = st.selectbox("max_features", [None, "auto", "sqrt", "log2"])
@@ -20,4 +21,8 @@ def rf_param_selector():
     }
 
     model = RandomForestClassifier(**params)
-    return model
+    t0 = time.time()
+    model.fit(X_train, y_train)
+    duration = time.time() - t0
+
+    return model, duration

@@ -2,9 +2,10 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 import streamlit as st
+import time
 
 
-def ada_param_selector():
+def ada_param_selector(X_train, y_train):
 
     base_estimator = st.selectbox(
         "base_estimator", ["Decision Tree Classifier", "Support Vector Classifier"]
@@ -60,4 +61,8 @@ def ada_param_selector():
 
     model = AdaBoostClassifier(**params)
 
-    return model
+    t0 = time.time()
+    model.fit(X_train, y_train)
+    duration = time.time() - t0
+
+    return model, duration
