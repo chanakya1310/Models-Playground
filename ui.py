@@ -8,6 +8,7 @@ from models.LinearRegression import linearReg_param_selector
 from models.LogisticRegression import logisticReg_param_selector
 from models.randomForest_Classification import rf_param_selector
 from models.GradientBoostingClassifier import gbc_param_selector
+from models.DecisionTreeRegressor import dtr_param_selector
 from models.AdaBoost import ada_param_selector
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score
@@ -25,7 +26,7 @@ def introduction():
     )
     st.markdown(
         """
-    - 🗂️ Upload a dataset
+    - 🗂️ Upload a pre-processed dataset
     - ⚙️ Pick a model and set its hyper-parameters
     - 📉 Train it and check its performance metrics on train and test data
     - 🩺 Diagnose possible overitting and experiment with other settings
@@ -96,7 +97,10 @@ def model_selector(problem_type, X_train, y_train):
             )
 
             if model_type == "Linear Regression":
-                model = linearReg_param_selector()
+                model, duration = linearReg_param_selector(X_train, y_train)
+
+            elif model_type == "Decision Tree Regressor":
+                model, duration = dtr_param_selector(X_train, y_train)
 
         elif problem_type == "Classification":
 
