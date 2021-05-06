@@ -10,6 +10,7 @@ model_imports = {
 }
 
 model_urls = {
+    "Linear Regression": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html",
     "Logistic Regression": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
     "Decision Tree Classifier": "https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html",
     "Decision Tree Regressor": "https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html",
@@ -21,6 +22,11 @@ model_urls = {
 
 
 model_infos = {
+    "Linear Regression": """
+        - Linear regression is a linear model, e.g. a model that assumes a linear relationship between the input variables (x) and the single output variable (y). 
+        - More specifically, that y can be calculated from a linear combination of the input variables (x).
+        - Different techniques can be used to prepare or train the linear regression equation from data, the most common of which is called Ordinary Least Squares.
+    """,
     "Logistic Regression": """
         - A logistic regression is only suited to **linearly separable** problems
         - It's computationally fast and interpretable by design

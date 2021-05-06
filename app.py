@@ -20,7 +20,7 @@ def sidebar_controllers(result):
     if result is not None:
         dependent_column = result[1]
         X_train, X_test, y_train, y_test, test_size, random_state = split_data(result)
-        model_type, model, duration = model_selector(result[0], X_train, y_train)
+        model_type, model, duration, problem_type = model_selector(result[0], X_train, y_train)
         if model:
             (
                 model,
@@ -29,7 +29,7 @@ def sidebar_controllers(result):
                 test_accuracy,
                 test_f1,
                 # duration,
-            ) = evaluate_model(model, X_train, y_train, X_test, y_test, duration)
+            ) = evaluate_model(model, X_train, y_train, X_test, y_test, duration, problem_type)
             # plot_metrics(model, train_accuracy, test_accuracy, train_f1, test_f1)
             snippet = generate_snippet(
                 model, model_type, result[0], test_size, random_state, dependent_column
@@ -49,6 +49,7 @@ def sidebar_controllers(result):
                 test_accuracy,
                 test_f1,
                 snippet,
+                problem_type
             )
 
 
@@ -65,6 +66,7 @@ def body(
     test_accuracy,
     test_f1,
     snippet,
+    problem_type
 ):
     local_css("css/style.css")
     col1, col2 = st.beta_columns((2, 1))
@@ -81,17 +83,25 @@ def body(
         tips_placeholder = st.empty()
 
     model_url = get_model_url(model_type)
+    if problem_type == "Classification":
+        metrics = {
+            "train_accuracy": train_accuracy,
+            "train_f1": train_f1,
+            "test_accuracy": test_accuracy,
+            "test_f1": test_f1,
+        }
 
-    metrics = {
-        "train_accuracy": train_accuracy,
-        "train_f1": train_f1,
-        "test_accuracy": test_accuracy,
-        "test_f1": test_f1,
-    }
+    elif problem_type == "Regression":
+        metrics = {
+            "train_mse": train_accuracy,
+            "train_rmse": train_f1,
+            "test_mse": test_accuracy,
+            "test_rmse": test_f1,
+        }
 
     model_tips = get_model_tips(model_type)
 
-    fig = plot_metrics(metrics)
+    fig = plot_metrics(metrics, problem_type)
 
     plot_placeholder.plotly_chart(fig, True)
     duration_placeholder.warning(f"Training took {duration:.3f} seconds")
@@ -119,6 +129,7 @@ if __name__ == "__main__":
             test_accuracy,
             test_f1,
             snippet,
+            problem_type
         ) = sidebar_controllers(result)
         if train_f1:
             body(
@@ -134,4 +145,5 @@ if __name__ == "__main__":
                 test_accuracy,
                 test_f1,
                 snippet,
+                problem_type
             )

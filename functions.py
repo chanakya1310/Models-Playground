@@ -37,43 +37,85 @@ def img_to_bytes(img_path):
     return encoded
 
 
-def plot_metrics(metrics):
+def plot_metrics(metrics, problem_type):
 
-    fig = make_subplots(
-        rows=2,
-        cols=1,
-        specs=[[{"type": "indicator"}], [{"type": "indicator"}]],
-        row_heights=[0.7, 0.30],
-    )
+    if problem_type == "Classification":
+        fig = make_subplots(
+            rows=2,
+            cols=1,
+            specs=[[{"type": "indicator"}], [{"type": "indicator"}]],
+            row_heights=[0.7, 0.30],
+        )
 
-    fig.add_trace(
-        go.Indicator(
-            mode="gauge+number+delta",
-            value=metrics["test_accuracy"],
-            title={"text": f"Accuracy (test)"},
-            domain={"x": [0, 1], "y": [0, 1]},
-            gauge={"axis": {"range": [0, 1]}},
-            delta={"reference": metrics["train_accuracy"]},
-        ),
-        row=1,
-        col=1,
-    )
+        fig.add_trace(
+            go.Indicator(
+                mode="gauge+number+delta",
+                value=metrics["test_accuracy"],
+                title={"text": f"Accuracy (test)"},
+                domain={"x": [0, 1], "y": [0, 1]},
+                gauge={"axis": {"range": [0, 1]}},
+                delta={"reference": metrics["train_accuracy"]},
+            ),
+            row=1,
+            col=1,
+        )
 
-    fig.add_trace(
-        go.Indicator(
-            mode="gauge+number+delta",
-            value=metrics["test_f1"],
-            title={"text": f"F1 score (test)"},
-            domain={"x": [0, 1], "y": [0, 1]},
-            gauge={"axis": {"range": [0, 1]}},
-            delta={"reference": metrics["train_f1"]},
-        ),
-        row=2,
-        col=1,
-    )
+        fig.add_trace(
+            go.Indicator(
+                mode="gauge+number+delta",
+                value=metrics["test_f1"],
+                title={"text": f"F1 score (test)"},
+                domain={"x": [0, 1], "y": [0, 1]},
+                gauge={"axis": {"range": [0, 1]}},
+                delta={"reference": metrics["train_f1"]},
+            ),
+            row=2,
+            col=1,
+        )
 
-    fig.update_layout(
-        height=700,
-    )
+        fig.update_layout(
+            height=700,
+        )
 
-    return fig
+        return fig
+    
+    elif problem_type == "Regression":
+        fig = make_subplots(
+            rows=2,
+            cols=1,
+            specs=[[{"type": "indicator"}], [{"type": "indicator"}]],
+            row_heights=[0.7, 0.30],
+        )
+
+        fig.add_trace(
+            go.Indicator(
+                mode = "number+delta",
+                value = metrics['test_mse'],
+                domain = {'row': 1, 'column': 1},
+                delta = {'reference': metrics['train_mse'], 'increasing.color': 'red'},
+                title = {"text": f"MSE (test)"}
+            ),
+            row = 1,
+            col = 1
+        )
+
+        fig.add_trace(
+            go.Indicator(
+                mode = "number+delta",
+                value = metrics['test_rmse'],
+                domain = {'row': 2, 'column': 1},
+                delta = {'reference': metrics['train_rmse'], 'increasing.color': 'red'},
+                title = {"text": f"RMSE (test)"}
+            ),
+            row = 2,
+            col = 1
+            
+        )
+     
+
+        fig.update_layout(
+            height=700,
+        )
+
+        return fig
+

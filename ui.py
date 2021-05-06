@@ -12,6 +12,7 @@ from models.DecisionTreeRegressor import dtr_param_selector
 from models.AdaBoost import ada_param_selector
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 from plotly.subplots import make_subplots
 import plotly.graph_objs as go
 from functions import img_to_bytes
@@ -130,7 +131,7 @@ def model_selector(problem_type, X_train, y_train):
             elif model_type == "AdaBoost Classifier":
                 model, duration = ada_param_selector(X_train, y_train)
 
-    return model_type, model, duration
+    return model_type, model, duration, problem_type
 
 
 def generate_snippet(
@@ -182,24 +183,37 @@ def generate_snippet(
     return snippet
 
 
-def evaluate_model(model, X_train, y_train, X_test, y_test, duration):
+def evaluate_model(model, X_train, y_train, X_test, y_test, duration, problem_type):
 
     y_train_pred = model.predict(X_train)
     y_test_pred = model.predict(X_test)
+    if problem_type == "Classification":
+        train_accuracy = np.round(accuracy_score(y_train, y_train_pred), 3)
+        train_f1 = np.round(f1_score(y_train, y_train_pred, average="weighted"), 3)
 
-    train_accuracy = np.round(accuracy_score(y_train, y_train_pred), 3)
-    train_f1 = np.round(f1_score(y_train, y_train_pred, average="weighted"), 3)
+        test_accuracy = np.round(accuracy_score(y_test, y_test_pred), 3)
+        test_f1 = np.round(f1_score(y_test, y_test_pred, average="weighted"), 3)
+        return (
+            model,
+            train_accuracy,
+            train_f1,
+            test_accuracy,
+            test_f1,
+        )
+    elif problem_type == "Regression":
+        train_mse = np.round(mean_squared_error(y_train, y_train_pred), 3)
+        train_rmse = np.round(mean_squared_error(y_train, y_train_pred, squared = False), 3)
 
-    test_accuracy = np.round(accuracy_score(y_test, y_test_pred), 3)
-    test_f1 = np.round(f1_score(y_test, y_test_pred, average="weighted"), 3)
+        test_mse = np.round(mean_squared_error(y_test, y_test_pred), 3)
+        test_rmse = np.round(mean_squared_error(y_test, y_test_pred, squared = False), 3)
 
-    return (
-        model,
-        train_accuracy,
-        train_f1,
-        test_accuracy,
-        test_f1,
-    )
+        return (
+            model,
+            train_mse,
+            train_rmse,
+            test_mse,
+            test_rmse
+        )
 
 
 def footer():
