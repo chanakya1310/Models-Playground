@@ -1,6 +1,7 @@
+import time
+
 import streamlit as st
 from sklearn.ensemble import RandomForestClassifier
-import time
 
 
 def rf_param_selector(X_train, y_train):

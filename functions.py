@@ -1,16 +1,14 @@
-from pathlib import Path
 import base64
 import time
 from pathlib import Path
-import streamlit as st
-import pandas as pd
-import numpy as np
-from sklearn.metrics import accuracy_score, f1_score
-from sklearn.datasets import make_moons, make_circles, make_blobs
-from sklearn.preprocessing import StandardScaler
 
-from plotly.subplots import make_subplots
+import numpy as np
+import pandas as pd
 import plotly.graph_objs as go
+import streamlit as st
+from plotly.subplots import make_subplots
+from sklearn.metrics import accuracy_score, f1_score
+from sklearn.preprocessing import StandardScaler
 
 from models.utils import model_infos, model_urls
 

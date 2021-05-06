@@ -1,6 +1,7 @@
+import time
+
 import streamlit as st
 from sklearn.tree import DecisionTreeClassifier
-import time
 
 
 def dt_param_selector(X_train, y_train):

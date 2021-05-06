@@ -1,21 +1,30 @@
-import streamlit as st
+import time
+
 import numpy as np
 import pandas as pd
-import time
-from models.utils import model_imports
+import plotly.graph_objs as go
+import streamlit as st
+from plotly.subplots import make_subplots
+from sklearn.metrics import (
+    accuracy_score,
+    f1_score,
+    mean_absolute_error,
+    mean_squared_error,
+)
+from sklearn.model_selection import train_test_split
+
+from functions import img_to_bytes
+from models.AdaBoost import ada_param_selector
 from models.DecisionTree_Classification import dt_param_selector
+from models.DecisionTreeRegressor import dtr_param_selector
+from models.GradientBoostingClassifier import gbc_param_selector
+from models.GradientBoostingRegressor import gbr_param_selector
 from models.LinearRegression import linearReg_param_selector
 from models.LogisticRegression import logisticReg_param_selector
 from models.randomForest_Classification import rf_param_selector
-from models.GradientBoostingClassifier import gbc_param_selector
-from models.DecisionTreeRegressor import dtr_param_selector
-from models.AdaBoost import ada_param_selector
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, f1_score
-from sklearn.metrics import mean_absolute_error, mean_squared_error
-from plotly.subplots import make_subplots
-import plotly.graph_objs as go
-from functions import img_to_bytes
+from models.RandomForestRegressor import rfr_param_selector
+from models.SupportVectorRegressor import svr_param_selector
+from models.utils import model_imports
 
 
 def introduction():
@@ -102,6 +111,15 @@ def model_selector(problem_type, X_train, y_train):
 
             elif model_type == "Decision Tree Regressor":
                 model, duration = dtr_param_selector(X_train, y_train)
+
+            elif model_type == "Random Forest Regressor":
+                model, duration = rfr_param_selector(X_train, y_train)
+
+            elif model_type == "Gradient Boosting Regressor":
+                model, duration = gbr_param_selector(X_train, y_train)
+
+            elif model_type == "Support Vector Regression":
+                model, duration = svr_param_selector(X_train, y_train)
 
         elif problem_type == "Classification":
 

@@ -1,15 +1,14 @@
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.svm import SVC
-import streamlit as st
 import time
+
+import streamlit as st
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 
 
 def ada_param_selector(X_train, y_train):
 
-    base_estimator = st.selectbox(
-        "base_estimator", ["Decision Tree Classifier", "Support Vector Classifier"]
-    )
+    base_estimator = st.selectbox("base_estimator", ["Decision Tree Classifier"])
     base_estimator1 = DecisionTreeClassifier(max_depth=1)
     if base_estimator == "Decision Tree Classifier":
 
@@ -30,22 +29,6 @@ def ada_param_selector(X_train, y_train):
         }
 
         base_estimator1 = DecisionTreeClassifier(**paramsDT)
-
-    elif base_estimator == "Support Vector Classifier":
-        c = st.number_input("C for " + base_estimator, 0.0, 1000.0, 1.0, 1.0)
-        kernel = st.selectbox(
-            "kernel for " + base_estimator,
-            ["linear", "poly", "rbf", "sigmoid", "precomputed"],
-        )
-        gamma = st.number_input("gamma for " + base_estimator, 0.0, 100.0, 10.0, 1.0)
-
-        paramsSVC = {
-            "C": c,
-            "kernel": kernel,
-            "gamma": gamma,
-        }
-
-        base_estimator1 = SVC(**paramsSVC)
 
     base_estimator = base_estimator1
     n_estimators = st.number_input("n_estimators", 1, 1000, 100, 10)

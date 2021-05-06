@@ -1,18 +1,20 @@
-import streamlit as st
 import time
+
+import streamlit as st
+
+from functions import get_model_tips, get_model_url, local_css, plot_metrics
 from ui import (
-    introduction,
     dataset_upload,
-    split_data,
-    model_selector,
     evaluate_model,
-    generate_snippet,
     footer,
+    generate_snippet,
+    introduction,
+    model_selector,
+    split_data,
 )
-from functions import get_model_url, get_model_tips, plot_metrics, local_css
 
 st.set_page_config(
-    page_title="Playground", layout="wide", page_icon="./images/mlground.png"
+    page_title="Models Playground", layout="wide", page_icon="./images/mlground.png"
 )
 
 
@@ -80,10 +82,6 @@ def body(
 ):
     local_css("css/style.css")
     col1, col2 = st.beta_columns((2, 1))
-
-    with col2:
-        plot_placeholder = st.empty()
-
     with col1:
         duration_placeholder = st.empty()
         model_url_placeholder = st.empty()
@@ -91,6 +89,10 @@ def body(
         snippet_placeholder = st.empty()
         tips_header_placeholder = st.empty()
         tips_placeholder = st.empty()
+
+    with col2:
+        relative_metrics = st.empty()
+        plot_placeholder = st.empty()
 
     model_url = get_model_url(model_type)
     if problem_type == "Classification":
@@ -113,6 +115,9 @@ def body(
 
     fig = plot_metrics(metrics, problem_type)
 
+    relative_metrics.warning(
+        f"Increase or Decrease is with respect to Training Dataset"
+    )
     plot_placeholder.plotly_chart(fig, True)
     duration_placeholder.warning(f"Training took {duration:.3f} seconds")
     model_url_placeholder.markdown(model_url)

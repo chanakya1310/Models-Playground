@@ -1,6 +1,7 @@
+import time
+
 import streamlit as st
 from sklearn.linear_model import LinearRegression
-import time
 
 
 def linearReg_param_selector(X_train, y_train):
