@@ -36,7 +36,13 @@ def sidebar_controllers(result):
             )
             # plot_metrics(model, train_accuracy, test_accuracy, train_f1, test_f1)
             snippet = generate_snippet(
-                model, model_type, result[0], test_size, random_state, dependent_column
+                model,
+                model_type,
+                result[0],
+                test_size,
+                random_state,
+                dependent_column,
+                problem_type,
             )
             footer()
             # st.write(snippet)

@@ -135,52 +135,97 @@ def model_selector(problem_type, X_train, y_train):
 
 
 def generate_snippet(
-    model, model_type, dataset, test_size, random_state, dependent_column
+    model, model_type, dataset, test_size, random_state, dependent_column, problem_type
 ):
 
     model_text_rep = repr(model)
     model_import = model_imports[model_type]
-    dataset_import = "df = pd.read_csv('file_path')"
-    snippet = f"""
 
-    {model_import}
+    if problem_type == "Classification":
+        dataset_import = "df = pd.read_csv('file_path')"
+        snippet = f"""
 
-    import pandas as pd
+        {model_import}
 
-    from sklearn.metrics import accuracy_score, f1_score 
+        import pandas as pd
 
-    from sklearn.model_selection import train_test_split
+        from sklearn.metrics import accuracy_score, f1_score 
 
-    {dataset_import}
+        from sklearn.model_selection import train_test_split
 
-    dependent_column = str({dependent_column})
+        {dataset_import}
 
-    y = df[dependent_column]
+        dependent_column = str({dependent_column})
 
-    X = df.drop(dependent_column, axis = 1)
+        y = df[dependent_column]
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size = {round(test_size, 2)}, random_state = {random_state}
-    )
+        X = df.drop(dependent_column, axis = 1)
 
-    model = {model_text_rep}
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size = {round(test_size, 2)}, random_state = {random_state}
+        )
 
-    model.fit(X_train, y_train)
-    
-    y_train_pred = model.predict(X_train)
+        model = {model_text_rep}
 
-    y_test_pred = model.predict(X_test)
+        model.fit(X_train, y_train)
+        
+        y_train_pred = model.predict(X_train)
 
-    train_accuracy = accuracy_score(y_train, y_train_pred)
+        y_test_pred = model.predict(X_test)
 
-    test_accuracy = accuracy_score(y_test, y_test_pred)
+        train_accuracy = accuracy_score(y_train, y_train_pred)
 
-    train_f1 = f1_score(y_train, y_train_pred)
+        test_accuracy = accuracy_score(y_test, y_test_pred)
 
-    test_f1 = f1_score(y_test, y_test_pred)
-    """
+        train_f1 = f1_score(y_train, y_train_pred)
 
-    return snippet
+        test_f1 = f1_score(y_test, y_test_pred)
+        """
+
+        return snippet
+
+    elif problem_type == "Regression":
+        dataset_import = "df = pd.read_csv('file_path')"
+        snippet = f"""
+
+        {model_import}
+
+        import pandas as pd
+
+        from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+        from sklearn.model_selection import train_test_split
+
+        {dataset_import}
+
+        dependent_column = str({dependent_column})
+
+        y = df[dependent_column]
+
+        X = df.drop(dependent_column, axis = 1)
+
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size = {round(test_size, 2)}, random_state = {random_state}
+        )
+
+        model = {model_text_rep}
+
+        model.fit(X_train, y_train)
+        
+        y_train_pred = model.predict(X_train)
+
+        y_test_pred = model.predict(X_test)
+
+        train_mse = mean_squared_error(y_train, y_train_pred)
+
+        train_rmse = mean_squared_error(y_train, y_train_pred, squared=False)
+
+        test_mse = mean_squared_error(y_test, y_test_pred)
+
+        test_rmse = mean_squared_error(y_test, y_test_pred, squared=False)
+        """
+
+        return snippet
 
 
 def evaluate_model(model, X_train, y_train, X_test, y_test, duration, problem_type):
