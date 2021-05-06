@@ -78,7 +78,7 @@ def plot_metrics(metrics, problem_type):
         )
 
         return fig
-    
+
     elif problem_type == "Regression":
         fig = make_subplots(
             rows=2,
@@ -89,33 +89,30 @@ def plot_metrics(metrics, problem_type):
 
         fig.add_trace(
             go.Indicator(
-                mode = "number+delta",
-                value = metrics['test_mse'],
-                domain = {'row': 1, 'column': 1},
-                delta = {'reference': metrics['train_mse'], 'increasing.color': 'red'},
-                title = {"text": f"MSE (test)"}
+                mode="number+delta",
+                value=metrics["test_mse"],
+                domain={"row": 1, "column": 1},
+                delta={"reference": metrics["train_mse"], "increasing.color": "red"},
+                title={"text": f"MSE (test)"},
             ),
-            row = 1,
-            col = 1
+            row=1,
+            col=1,
         )
 
         fig.add_trace(
             go.Indicator(
-                mode = "number+delta",
-                value = metrics['test_rmse'],
-                domain = {'row': 2, 'column': 1},
-                delta = {'reference': metrics['train_rmse'], 'increasing.color': 'red'},
-                title = {"text": f"RMSE (test)"}
+                mode="number+delta",
+                value=metrics["test_rmse"],
+                domain={"row": 2, "column": 1},
+                delta={"reference": metrics["train_rmse"], "increasing.color": "red"},
+                title={"text": f"RMSE (test)"},
             ),
-            row = 2,
-            col = 1
-            
+            row=2,
+            col=1,
         )
-     
 
         fig.update_layout(
             height=700,
         )
 
         return fig
-

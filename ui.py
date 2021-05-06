@@ -202,18 +202,14 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, duration, problem_ty
         )
     elif problem_type == "Regression":
         train_mse = np.round(mean_squared_error(y_train, y_train_pred), 3)
-        train_rmse = np.round(mean_squared_error(y_train, y_train_pred, squared = False), 3)
+        train_rmse = np.round(
+            mean_squared_error(y_train, y_train_pred, squared=False), 3
+        )
 
         test_mse = np.round(mean_squared_error(y_test, y_test_pred), 3)
-        test_rmse = np.round(mean_squared_error(y_test, y_test_pred, squared = False), 3)
+        test_rmse = np.round(mean_squared_error(y_test, y_test_pred, squared=False), 3)
 
-        return (
-            model,
-            train_mse,
-            train_rmse,
-            test_mse,
-            test_rmse
-        )
+        return (model, train_mse, train_rmse, test_mse, test_rmse)
 
 
 def footer():
