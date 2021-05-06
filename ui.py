@@ -36,7 +36,7 @@ def introduction():
     )
     st.markdown(
         """
-    - 🗂️ Upload a pre-processed dataset
+    - 🗂️ Upload a **pre-processed** dataset
     - ⚙️ Pick a model and set its hyper-parameters
     - 📉 Train it and check its performance metrics on train and test data
     - 🩺 Diagnose possible overitting and experiment with other settings
@@ -86,6 +86,14 @@ def split_data(result):
 
         return X_train, X_test, y_train, y_test, test_size, random_state
 
+def scale(result, X_train, y_train, X_test, y_test):
+    dataset = result[2]
+    scale_container = st.sidebar.beta_expander("Data Scaling", True)
+    with scale_container:
+        for col in dataset.columns:
+            st.checkbox("")
+
+        
 
 def model_selector(problem_type, X_train, y_train):
     model_training_container = st.sidebar.beta_expander("Train a model", True)
