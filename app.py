@@ -11,6 +11,7 @@ from ui import (
     introduction,
     model_selector,
     split_data,
+    scale_data
 )
 
 st.set_page_config(
@@ -22,6 +23,7 @@ def sidebar_controllers(result):
     if result is not None:
         dependent_column = result[1]
         X_train, X_test, y_train, y_test, test_size, random_state = split_data(result)
+        X_train, X_test = scale_data(result, X_train, X_test)
         model_type, model, duration, problem_type = model_selector(
             result[0], X_train, y_train
         )
@@ -32,11 +34,10 @@ def sidebar_controllers(result):
                 train_f1,
                 test_accuracy,
                 test_f1,
-                # duration,
             ) = evaluate_model(
                 model, X_train, y_train, X_test, y_test, duration, problem_type
             )
-            # plot_metrics(model, train_accuracy, test_accuracy, train_f1, test_f1)
+        
             snippet = generate_snippet(
                 model,
                 model_type,

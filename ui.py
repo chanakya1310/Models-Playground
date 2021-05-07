@@ -25,6 +25,7 @@ from models.randomForest_Classification import rf_param_selector
 from models.RandomForestRegressor import rfr_param_selector
 from models.SupportVectorRegressor import svr_param_selector
 from models.utils import model_imports
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 
 def introduction():
@@ -86,12 +87,53 @@ def split_data(result):
 
         return X_train, X_test, y_train, y_test, test_size, random_state
 
-def scale(result, X_train, y_train, X_test, y_test):
-    dataset = result[2]
+def scale_data(result, X_train, X_test):
     scale_container = st.sidebar.beta_expander("Data Scaling", True)
     with scale_container:
-        for col in dataset.columns:
-            st.checkbox("")
+        st.write("Select Scaling Method")
+        standardScaler = st.checkbox("StandardScaler")
+        minmaxscaler = st.checkbox("MinMaxScaler")
+        none = st.checkbox("None")
+        columns = st.text_input("Enter the columns to be scaled/normalized separated by comma")
+        columnss = []
+        col_name = ''
+        t = 0
+
+        if len(columns) == 0:
+            return X_train, X_test
+        for col in columns:
+            if col != ',' and col != ' ':
+                col_name += col
+            if col == ',' or t == len(columns) - 1:
+                columnss.append(col_name)
+                col_name = ''
+            t += 1
+        # dataset = result[2]
+        # st.write(X_train[columnss])
+        # st.write(columnss)
+
+        if none:
+            return X_train, X_test
+
+        if standardScaler:
+            for col in columnss:
+                scaler = StandardScaler()
+                X_train[col] = scaler.fit_transform(X_train[col].values.reshape(-1, 1))
+                X_test[col] = scaler.transform(X_test[col].values.reshape(-1, 1))
+            st.write(X_test)
+            return X_train, X_test
+
+        if minmaxscaler:
+            for col in columnss:
+                scaler = MinMaxScaler()
+                X_train[col] = scaler.fit_transform(X_train[col].values.reshape(-1, 1))
+                X_test[col] = scaler.transform(X_test[col].values.reshape(-1, 1))
+        
+            st.write(X_test)
+            return X_train, X_test
+        
+        if minmaxscaler and standardScaler:
+            st.write("Please select only one")
 
         
 
