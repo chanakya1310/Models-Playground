@@ -18,6 +18,7 @@ st.set_page_config(
     page_title="Models Playground", layout="wide", page_icon="./images/mlground.png"
 )
 
+hyperparameters = []
 
 def sidebar_controllers(result):
     if result is not None:
@@ -93,7 +94,11 @@ def body(
 
     with col2:
         relative_metrics = st.empty()
+        add_placeholder = st.empty()
+        show_placeholder = st.empty()
         plot_placeholder = st.empty()
+        models_placeholder = st.empty()
+
 
     model_url = get_model_url(model_type)
     if problem_type == "Classification":
@@ -120,6 +125,24 @@ def body(
         f"Increase or Decrease is with respect to Training Dataset"
     )
     plot_placeholder.plotly_chart(fig, True)
+    if add_placeholder.button("Click to record these Hyperparmaters"):
+        with open('data.txt', 'a') as f:
+            f.write('\n\n')
+            f.write(str(model))
+            for i in metrics:
+                f.write('\n')
+                f.write(str(i))
+                f.write(' ')
+                f.write(str(metrics[i]))
+                f.write('')
+            # f.write('\n')
+    if show_placeholder.button("Click to view all models"):
+        f = open("data.txt", "r")
+        final = ''
+        for x in f:
+            final = final + str(x) + '\n'
+        models_placeholder.write(final)
+
     duration_placeholder.warning(f"Training took {duration:.3f} seconds")
     model_url_placeholder.markdown(model_url)
     code_header_placeholder.header("**Retrain the same model in Python**")
