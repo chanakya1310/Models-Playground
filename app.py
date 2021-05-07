@@ -1,6 +1,7 @@
 import time
 
 import streamlit as st
+from datetime import datetime
 
 from functions import get_model_tips, get_model_url, local_css, plot_metrics
 from ui import (
@@ -23,6 +24,9 @@ hyperparameters = []
 
 def sidebar_controllers(result):
     if result is not None:
+        view = st.checkbox("View the Dataset")
+        if view:
+            st.write(result[2])
         dependent_column = result[1]
         X_train, X_test, y_train, y_test, test_size, random_state = split_data(result)
         X_train, X_test = scale_data(result, X_train, X_test)
@@ -120,16 +124,20 @@ def body(
     )
     plot_placeholder.plotly_chart(fig, True)
     if add_placeholder.button("Click to record these Hyperparmaters"):
+        t0 = datetime.now()
         with open("data.txt", "a") as f:
             f.write("\n\n")
-            f.write(str(model))
+            f.write("Trained at: " + str(t0))
+            f.write("\n")
+            model = str(model).strip()
+            f.write(model)
             for i in metrics:
                 f.write("\n")
                 f.write(str(i))
                 f.write(" ")
                 f.write(str(metrics[i]))
                 f.write("")
-            # f.write('\n')
+
     if show_placeholder.button("Click to view all models"):
         f = open("data.txt", "r")
         final = ""

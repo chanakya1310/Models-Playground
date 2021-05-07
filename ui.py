@@ -50,6 +50,7 @@ def dataset_upload():
     dataset_container = st.sidebar.beta_expander("Upload a Dataset", True)
     with dataset_container:
         dataset = st.file_uploader("Upload Dataset", type=["csv"])
+        # st.checkbox("ChView the dataset")
         if dataset is not None:
             result = []
             X = y = 0
