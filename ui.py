@@ -50,15 +50,17 @@ def dataset_upload():
     dataset_container = st.sidebar.beta_expander("Upload a Dataset", True)
     with dataset_container:
         dataset = st.file_uploader("Upload Dataset", type=["csv"])
-        # st.checkbox("ChView the dataset")
         if dataset is not None:
+            # name = dataset.name
             result = []
             X = y = 0
+            dfname = dataset.name
             dataset = pd.read_csv(dataset)
             problem_type = st.selectbox(
                 "Type of Problem", ("Regression", "Classification")
             )
             result.append(problem_type)
+
             dependent_column = st.text_input("Enter the Dependent Variable")
             if dependent_column:
                 result.append(dependent_column)
@@ -67,6 +69,7 @@ def dataset_upload():
                 result.append(dataset)
                 result.append(X)
                 result.append(y)
+                result.append(dfname)
                 return result
 
 

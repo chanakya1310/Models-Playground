@@ -80,6 +80,7 @@ def body(
     test_f1,
     snippet,
     problem_type,
+    name
 ):
     local_css("css/style.css")
     col1, col2 = st.beta_columns((2, 1))
@@ -127,7 +128,9 @@ def body(
         t0 = datetime.now()
         with open("data.txt", "a") as f:
             f.write("\n\n")
-            f.write("Trained at: " + str(t0))
+            f.write('Trained at: ' + str(t0))
+            f.write("\n")
+            f.write("Dataset Name: " + str(name))
             f.write("\n")
             model = str(model).strip()
             f.write(model)
@@ -142,7 +145,8 @@ def body(
         f = open("data.txt", "r")
         final = ""
         for x in f:
-            final = final + str(x) + "\n"
+            final = "\t" + final + str(x) + "\n"
+        final = final + "\n"
         models_placeholder.write(final)
 
     duration_placeholder.warning(f"Training took {duration:.3f} seconds")
@@ -187,4 +191,5 @@ if __name__ == "__main__":
                 test_f1,
                 snippet,
                 problem_type,
+                result[5]
             )
