@@ -87,6 +87,7 @@ def split_data(result):
 
         return X_train, X_test, y_train, y_test, test_size, random_state
 
+
 def scale_data(result, X_train, X_test):
     scale_container = st.sidebar.beta_expander("Data Scaling", True)
     with scale_container:
@@ -94,19 +95,21 @@ def scale_data(result, X_train, X_test):
         standardScaler = st.checkbox("StandardScaler")
         minmaxscaler = st.checkbox("MinMaxScaler")
         none = st.checkbox("None")
-        columns = st.text_input("Enter the columns to be scaled/normalized separated by comma")
+        columns = st.text_input(
+            "Enter the columns to be scaled/normalized separated by comma"
+        )
         columnss = []
-        col_name = ''
+        col_name = ""
         t = 0
 
         if len(columns) == 0:
             return X_train, X_test
         for col in columns:
-            if col != ',' and col != ' ':
+            if col != "," and col != " ":
                 col_name += col
-            if col == ',' or t == len(columns) - 1:
+            if col == "," or t == len(columns) - 1:
                 columnss.append(col_name)
-                col_name = ''
+                col_name = ""
             t += 1
         # dataset = result[2]
         # st.write(X_train[columnss])
@@ -128,14 +131,13 @@ def scale_data(result, X_train, X_test):
                 scaler = MinMaxScaler()
                 X_train[col] = scaler.fit_transform(X_train[col].values.reshape(-1, 1))
                 X_test[col] = scaler.transform(X_test[col].values.reshape(-1, 1))
-        
+
             st.write(X_test)
             return X_train, X_test
-        
+
         if minmaxscaler and standardScaler:
             st.write("Please select only one")
 
-        
 
 def model_selector(problem_type, X_train, y_train):
     model_training_container = st.sidebar.beta_expander("Train a model", True)

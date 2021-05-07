@@ -11,7 +11,7 @@ from ui import (
     introduction,
     model_selector,
     split_data,
-    scale_data
+    scale_data,
 )
 
 st.set_page_config(
@@ -19,6 +19,7 @@ st.set_page_config(
 )
 
 hyperparameters = []
+
 
 def sidebar_controllers(result):
     if result is not None:
@@ -29,16 +30,10 @@ def sidebar_controllers(result):
             result[0], X_train, y_train
         )
         if model:
-            (
-                model,
-                train_accuracy,
-                train_f1,
-                test_accuracy,
-                test_f1,
-            ) = evaluate_model(
+            (model, train_accuracy, train_f1, test_accuracy, test_f1,) = evaluate_model(
                 model, X_train, y_train, X_test, y_test, duration, problem_type
             )
-        
+
             snippet = generate_snippet(
                 model,
                 model_type,
@@ -99,7 +94,6 @@ def body(
         plot_placeholder = st.empty()
         models_placeholder = st.empty()
 
-
     model_url = get_model_url(model_type)
     if problem_type == "Classification":
         metrics = {
@@ -126,21 +120,21 @@ def body(
     )
     plot_placeholder.plotly_chart(fig, True)
     if add_placeholder.button("Click to record these Hyperparmaters"):
-        with open('data.txt', 'a') as f:
-            f.write('\n\n')
+        with open("data.txt", "a") as f:
+            f.write("\n\n")
             f.write(str(model))
             for i in metrics:
-                f.write('\n')
+                f.write("\n")
                 f.write(str(i))
-                f.write(' ')
+                f.write(" ")
                 f.write(str(metrics[i]))
-                f.write('')
+                f.write("")
             # f.write('\n')
     if show_placeholder.button("Click to view all models"):
         f = open("data.txt", "r")
-        final = ''
+        final = ""
         for x in f:
-            final = final + str(x) + '\n'
+            final = final + str(x) + "\n"
         models_placeholder.write(final)
 
     duration_placeholder.warning(f"Training took {duration:.3f} seconds")
