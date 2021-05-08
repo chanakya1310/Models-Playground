@@ -79,6 +79,6 @@
 <img src="images/overall2.png"/><br>
 <img src="images/overall1.png"/><br>
 <img src="images/regression.png"/><br>
-<img src="images/history.png"/><br>
+<img src="images/logs.png" height = 600 width = 500/><br>
 
 
