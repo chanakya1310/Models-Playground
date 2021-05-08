@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="images/mlground.png" height = 300>
+    <img src="images/mlground.png" height = 100>
     <h2 align="center">Models Playground</h2>
     <h5 align = "center"> 
 
