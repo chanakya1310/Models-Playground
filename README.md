@@ -45,13 +45,6 @@
 * Pre-requisites:
 	-  Python 3.6 or 3.7 or 3.8
 	-  Dependencies from requirements.txt
-
-<!-- * Using pip
-  -  create a virtual environment then:
-  ```bash
-  pip install background
-  Genre_Prediction
-  ``` -->
     
 * Directions to Install
 
@@ -60,8 +53,13 @@
    - Navigate to this repository, create a Virtual Environment and activate it: <br>
    ```bash
   cd path/to/cloned/repo
-  python3 -m venv env
+
+  ##(for Mac and Linux)
+  python3 -m venv env 
   source env/bin/activate
+  ##(for Windows)
+  python3 -m venv env
+  .\env\Scripts\activate
   ```
   Install the python dependencies from requirements.txt:
     ```bash
