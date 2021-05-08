@@ -11,6 +11,8 @@
 
      🪓 Type in the split ratio
 
+     ⚖️ Select the Scaling method
+      
      ⚙️ Pick a Model and set its Hyper-Parameters
   
      📉 Train it and check its Performance Metrics on Train and Test data
@@ -19,10 +21,20 @@
 
      📠 Copy the code snippet to run in jupyter or colab
 
+     🚀 If you find the model to be performing well, save the model's hyperparameters with a single click
+
+     🎑 View all the saved models.
+
 </p>
 
 ### What is the idea?
-
+  - Ever felt tired after preprocessing the dataset, and not wanting to write any code further to train your model? Ever encountered a situation where you wanted to record the hyperparameters of the trained model and able to retrieve it afterward
+  -  Models Playground is here to help you do that. Models playground allows you to train your models right from the browser.
+  -  Just upload the preprocessed dataset, choose the option to perform classification or regression. Enter the dependent variable, type in the split ratio and choose a scaling method(MinMaxScaler or StandardScaler), and enter the columns to be scaled.
+  - Select a model and adjust its hyperparameters to get the best result.
+  - Copy the automatically generated code snippet to train in Jupyter or Colab.
+  - If you find the model to be performing well click the save hyperparameters button to save the results to a data.txt file.
+  - To view all the hyperparameters saved till now, display them on the screen with a single click.
 
 ### Built Using:
 <img src="https://img.shields.io/badge/streamlit%20-%23323330.svg?&style=for-the-badge&logo=streamlit&logoColor=%23F7DF1E"/><br>
