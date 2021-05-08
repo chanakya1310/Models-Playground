@@ -209,14 +209,14 @@ def model_selector(problem_type, X_train, y_train):
 
 
 def generate_snippet(
-    model, model_type, dataset, test_size, random_state, dependent_column, problem_type
+    model, model_type, dataset, test_size, random_state, dependent_column, problem_type, name
 ):
 
     model_text_rep = repr(model)
     model_import = model_imports[model_type]
 
     if problem_type == "Classification":
-        dataset_import = "df = pd.read_csv('file_path')"
+        dataset_import = f"""df = pd.read_csv(str({name}))"""
         snippet = f"""
 
         {model_import}
@@ -238,6 +238,8 @@ def generate_snippet(
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size = {round(test_size, 2)}, random_state = {random_state}
         )
+
+        ## Type in the code for MinMaxScaler or StandardScaler
 
         model = {model_text_rep}
 

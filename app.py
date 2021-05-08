@@ -46,6 +46,7 @@ def sidebar_controllers(result):
                 random_state,
                 dependent_column,
                 problem_type,
+                result[-1]
             )
             footer()
             # st.write(snippet)
