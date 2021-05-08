@@ -46,7 +46,7 @@ def sidebar_controllers(result):
                 random_state,
                 dependent_column,
                 problem_type,
-                result[-1]
+                result[-1],
             )
             footer()
             # st.write(snippet)
@@ -81,7 +81,7 @@ def body(
     test_f1,
     snippet,
     problem_type,
-    name
+    name,
 ):
     local_css("css/style.css")
     col1, col2 = st.beta_columns((2, 1))
@@ -129,7 +129,7 @@ def body(
         t0 = datetime.now()
         with open("data.txt", "a") as f:
             f.write("\n\n")
-            f.write('Trained at: ' + str(t0))
+            f.write("Trained at: " + str(t0))
             f.write("\n")
             f.write("Dataset Name: " + str(name))
             f.write("\n")
@@ -192,5 +192,5 @@ if __name__ == "__main__":
                 test_f1,
                 snippet,
                 problem_type,
-                result[5]
+                result[5],
             )

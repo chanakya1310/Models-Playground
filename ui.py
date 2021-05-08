@@ -209,7 +209,14 @@ def model_selector(problem_type, X_train, y_train):
 
 
 def generate_snippet(
-    model, model_type, dataset, test_size, random_state, dependent_column, problem_type, name
+    model,
+    model_type,
+    dataset,
+    test_size,
+    random_state,
+    dependent_column,
+    problem_type,
+    name,
 ):
 
     model_text_rep = repr(model)
