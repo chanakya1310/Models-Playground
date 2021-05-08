@@ -148,7 +148,7 @@ def body(
         for x in f:
             final = "\t" + final + str(x) + "\n"
         final = final + "\n"
-        models_placeholder.write(final)
+        models_placeholder.code(final)
 
     duration_placeholder.warning(f"Training took {duration:.3f} seconds")
     model_url_placeholder.markdown(model_url)
