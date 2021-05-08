@@ -73,4 +73,11 @@
     ```bash
     streamlit run app.py
     ```
+### Different Screens
+<img src="images/landing.png"/><br>
+<img src="images/data_upload.png"/><br>
+<img src="images/overall2.png"/><br>
+<img src="images/overall1.png"/><br>
+<img src="images/history.png"/><br>
+
 
